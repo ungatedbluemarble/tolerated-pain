@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Tolerated Pain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1E2761;
+    --navy-deep:#161d4a;
+    --ice:#CADCFC;
+    --ice-soft:#eef3fc;
+    --accent:#3A6FE8;
+    --green:#2E8B6F;
+    --amber:#C77D2E;
+    --ink:#1a1c2e;
+    --slate:#4a5270;
+    --muted:#8088a0;
+    --paper:#fbfbfd;
+    --rule:#e4e7f0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Spectral',Georgia,serif;
+    font-size:20px;
+    line-height:1.66;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:0 28px;}
+
+  /* progress bar */
+  #progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:100;transition:width .1s linear;}
+
+  /* masthead */
+  header.masthead{border-bottom:1px solid var(--rule);margin-bottom:0;}
+  .kicker{
+    font-family:'Libre Franklin',sans-serif;
+    font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;
+    padding-top:64px;
+  }
+  h1{
+    font-family:'Libre Franklin',sans-serif;
+    font-weight:800;
+    font-size:clamp(38px,6.4vw,60px);
+    line-height:1.02;
+    letter-spacing:-.025em;
+    color:var(--navy);
+    margin:18px 0 22px;
+  }
+  .standfirst{
+    font-size:23px;
+    line-height:1.5;
+    color:var(--slate);
+    font-style:italic;
+    margin-bottom:34px;
+    max-width:38ch;
+  }
+  .byline{
+    font-family:'Libre Franklin',sans-serif;
+    font-size:14px;color:var(--muted);
+    padding-bottom:44px;
+    display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+  }
+  .byline .read{color:var(--slate);font-weight:500;}
+  .byline .dot{width:3px;height:3px;border-radius:50%;background:var(--muted);}
+
+  article{padding-top:48px;}
+  article p{margin:0 0 26px;}
+  article p.lead:first-of-type{font-size:24px;line-height:1.5;color:var(--navy);}
+  article p.lead:first-of-type::first-letter{
+    font-family:'Libre Franklin',sans-serif;
+    font-weight:600;
+    float:left;
+    font-size:78px;
+    line-height:.74;
+    padding:8px 12px 0 0;
+    color:var(--accent);
+  }
+
+  h2{
+    font-family:'Libre Franklin',sans-serif;
+    font-weight:700;
+    font-size:27px;
+    line-height:1.2;
+    letter-spacing:-.02em;
+    color:var(--navy);
+    margin:54px 0 20px;
+  }
+  h2 .num{
+    display:block;
+    font-family:'Libre Franklin',sans-serif;
+    font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;margin-bottom:10px;
+  }
+
+  strong{font-weight:600;color:var(--navy);}
+  em{font-style:italic;}
+
+  /* pull quote */
+  .pull{
+    font-family:'Spectral',Georgia,serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:28px;
+    line-height:1.34;
+    color:var(--navy);
+    border-left:3px solid var(--accent);
+    padding:6px 0 6px 30px;
+    margin:42px 0;
+    letter-spacing:-.005em;
+  }
+
+  /* figure / slide */
+  figure{margin:46px 0;}
+  figure img{
+    width:100%;height:auto;display:block;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    box-shadow:0 18px 48px -22px rgba(30,39,97,.32);
+  }
+  figcaption{
+    font-family:'Libre Franklin',sans-serif;
+    font-size:13.5px;line-height:1.5;
+    color:var(--muted);
+    margin-top:14px;
+    padding-left:2px;
+  }
+  figcaption b{color:var(--slate);font-weight:600;}
+
+  /* the two-box callout for skill vs system */
+  .split{
+    display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:38px 0;
+    font-family:'Libre Franklin',sans-serif;
+  }
+  .split .col{border-radius:8px;padding:22px 22px 8px;}
+  .split .skill{background:#eef6f2;border:1px solid #cfe6da;}
+  .split .system{background:#fbf3e8;border:1px solid #ecdcc2;}
+  .split h3{
+    font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;
+    margin-bottom:6px;
+  }
+  .split .skill h3{color:var(--green);}
+  .split .system h3{color:var(--amber);}
+  .split .col p{font-size:15.5px;line-height:1.5;color:var(--slate);margin-bottom:14px;}
+  .split ul{list-style:none;margin-bottom:14px;}
+  .split li{font-size:15.5px;color:var(--ink);padding:4px 0 4px 18px;position:relative;}
+  .split li::before{content:"";position:absolute;left:0;top:13px;width:6px;height:6px;border-radius:50%;}
+  .split .skill li::before{background:var(--green);}
+  .split .system li::before{background:var(--amber);}
+
+  /* exec takeaway box */
+  .takeaway{
+    background:var(--navy);
+    color:#fff;
+    border-radius:10px;
+    padding:38px 40px;
+    margin:54px 0;
+  }
+  .takeaway .label{
+    font-family:'Libre Franklin',sans-serif;
+    font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ice);font-weight:600;margin-bottom:14px;
+  }
+  .takeaway p{
+    font-family:'Spectral',Georgia,serif;
+    font-size:24px;line-height:1.45;font-weight:400;
+    color:#fff;margin:0;
+  }
+  .takeaway p strong{color:var(--ice);font-weight:600;}
+
+  /* close */
+  .close-rule{border:0;border-top:1px solid var(--rule);margin:56px 0 36px;}
+  .endnote{
+    font-family:'Libre Franklin',sans-serif;
+    font-size:15px;line-height:1.6;color:var(--slate);
+    padding-bottom:90px;
+  }
+  .endnote strong{color:var(--navy);}
+
+  /* sources */
+  .sources{
+    font-family:'Libre Franklin',sans-serif;
+    border-top:1px solid var(--rule);
+    padding-top:28px;
+    padding-bottom:90px;
+  }
+  .sources-label{
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;margin-bottom:16px;
+  }
+  .sources ul{list-style:none;margin-bottom:22px;}
+  .sources li{
+    font-size:15px;line-height:1.5;color:var(--slate);
+    padding:7px 0 7px 16px;position:relative;
+  }
+  .sources li::before{content:"";position:absolute;left:0;top:14px;width:5px;height:5px;border-radius:50%;background:var(--accent);}
+  .sources a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--ice);transition:border-color .15s;}
+  .sources a:hover{border-bottom-color:var(--accent);}
+  .sources-note{
+    font-size:13px;line-height:1.6;color:var(--muted);
+    font-style:normal;margin:0;
+  }
+
+  @media(max-width:680px){
+    body{font-size:18px;}
+    .standfirst{font-size:20px;}
+    article p.lead:first-of-type{font-size:21px;}
+    .pull{font-size:24px;}
+    .split{grid-template-columns:1fr;}
+    .takeaway{padding:30px 26px;}
+    .takeaway p{font-size:21px;}
+    h1{margin-top:6px;}
+    .kicker{padding-top:46px;}
+  }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="kicker">Enterprise AI &middot; Operating Model</div>
+    <h1>The Tolerated Pain</h1>
+    <p class="standfirst">Every enterprise is sitting on problems it already decided to live with. The decision was right. The math underneath it just broke.</p>
+    <div class="byline">
+      <span class="read">A 5-minute read</span>
+      <span class="dot"></span>
+      <span>On the function most organizations don't staff, and now should</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+<article>
+
+  <p class="lead">Not problems nobody noticed. The opposite. Everyone sees them. The legal team that still redlines NDAs by hand. The HR intake that eats three days a week. The help-desk knowledge base nobody quite trusts. These aren't oversights. They're decisions.</p>
+
+  <p>At some point someone did the arithmetic and concluded that fixing the thing would cost more than enduring it. And they were right. A fix meant a project, a budget line, an engineering team, and two quarters of waiting. The friction was cheaper than the cure. So the friction won, and it kept winning, quietly, year after year. Each of those tolerated problems is a rational decision sitting in a portfolio nobody manages.</p>
+
+  <p>That arithmetic just broke, and most organizations haven't re-run it.</p>
+
+  <h2><span class="num">The reframe</span>You are funding the pain on problems you already paid for the fix to</h2>
+
+  <p>Here is what changed. A large share of those tolerated problems are language-and-workflow problems, not systems problems. They look like they would need a platform build. They don't. The capability to close them now ships inside the AI licenses you are already paying for. Configuring a redline reviewer, an intake assistant, a knowledge-base rewrite is an afternoon, not a roadmap item. No new infrastructure. No reallocated headcount.</p>
+
+  <p>The cost basis underneath a whole class of <em>"we'll live with it"</em> decisions collapsed. And those decisions never got revisited, because revisiting them used to be expensive too. So the pain compounds on one side of the ledger while the cost of clearing it falls on the other, and the two never meet, because nobody owns the act of putting them back in the same room.</p>
+
+  <figure>
+    <img src="slide-1.png" alt="Before and after: fixing once cost more than enduring; now licensed AI capability makes fixing cost less.">
+    <figcaption><b>The repricing.</b> The decision to tolerate was correct under the old cost basis. Licensed AI capability moved it. Almost nobody has recalculated.</figcaption>
+  </figure>
+
+  <p>So the real opportunity in enterprise AI right now is not a moonshot. It is repricing the backlog you already chose to tolerate. That is a quieter claim than most AI strategy decks make, and a more defensible one. It doesn't start with what to build. It starts with what you have been enduring that just got cheap to end.</p>
+
+  <h2><span class="num">The discipline</span>Two kinds of gap, and only one is cheap</h2>
+
+  <p>This is where it goes wrong, and where credibility is won or lost. Not every tolerated problem qualifies. The skill is telling the two classes apart <em>before</em> you promise anyone a timeline.</p>
+
+  <div class="split">
+    <div class="col skill">
+      <h3>Skill-shaped</h3>
+      <p>Language, workflow, and rules. Configuration, not construction. Closes this quarter on the stack you already own.</p>
+      <ul>
+        <li>Contract and NDA redlining</li>
+        <li>HR intake and policy drafting</li>
+        <li>Help-desk knowledge base</li>
+        <li>Procedure and workflow rewrites</li>
+      </ul>
+    </div>
+    <div class="col system">
+      <h3>System-shaped</h3>
+      <p>Needs real engineering, shared resources, integration. AI did not move this wall. Must earn a roadmap slot.</p>
+      <ul>
+        <li>Anything needing a data platform</li>
+        <li>Cross-system integration builds</li>
+        <li>Pipelines and persistent databases</li>
+        <li>Multi-team allocation and headcount</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>The entire credibility of this approach rests on drawing that line honestly. Promise an afternoon on something that is actually a platform build, and you burn the trust the cheap wins earned. For a CTO, this is also the language that protects a roadmap: it gives you a clean, pro-AI way to say <em>not that one, not like that</em> without sounding like a brake. The judgment about which is which is the scarce skill. It is worth more than the building.</p>
+
+  <p class="pull">The constraint stopped being whether you can afford to build it. It became whether anyone can even see it, and whether you can tell the afternoon from the platform.</p>
+
+  <h2><span class="num">The objection</span>"Won't this just create a thousand unmanaged tools?"</h2>
+
+  <p>It is the first thing every governance-minded leader says, and it is a real concern attached to a wrong conclusion. The sprawl is not a future risk this function creates. It is the present reality. People are already building their own assistants, sanctioned or not, because the capability is sitting right there in the tools they have. Gatekeeping lost the moment that became true. A policy without an approved alternative is a liability disclaimer, not a control.</p>
+
+  <p>So the answer is not to clamp down on individual building. Individual building is good. It is the prototype phase. The answer is <strong>promotion</strong>.</p>
+
+  <figure>
+    <img src="slide-3.png" alt="Three stages: one person solves it, it gets blessed, it becomes the department standard with a named owner.">
+    <figcaption><b>Standardization by promotion, not governance by permission.</b> One person's working solve is hardened, documented, version-controlled, and rolled out as the standard, with a named owner and a refresh cadence.</figcaption>
+  </figure>
+
+  <p>When one person solves their own instance of a recurring problem and it works, that solve does not stay personal. It gets hardened with the team's actual compliance rules, documented, version-controlled, and rolled out as the standard for everyone who does that task. Fragmentation does not come from people building. It comes from never promoting the winner, so ten people build ten incompatible versions of the same thing. The discovery process, sitting with the domain team, learning their constraints, building <em>with</em> them, is what makes the result governed rather than shadow IT. The governance is a byproduct of doing it properly.</p>
+
+  <p>There is one honest failure mode, and it is worth naming rather than hiding. A blessed tool that rots in a shared drive while people still trust it is worse than no standard at all. So every promoted fix needs a named owner and a refresh cadence. Fire-and-forget is how the standard decays into a quiet liability. Maintained, it is how the sprawl gets smaller instead of larger, because each promotion converts a pile of private versions into one owned thing.</p>
+
+  <h2><span class="num">The clock</span>Why this stopped being optional</h2>
+
+  <p>There is a reason this work is moving from "good idea" to "do it now," and it is not a vendor pitch. It is regulation. The EU Artificial Intelligence Act is the first comprehensive legal framework for AI, and like GDPR before it, the thing it sets is not just rules for Europe. It is the template the rest of the world is watching to decide what its own governance will look like. The structural requirement underneath it is coming to your market regardless of where you sit, and the very first thing every version of it will demand is a complete, classified, owned inventory of the AI in use. That is precisely the shadow-AI pile nobody currently owns.</p>
+
+  <p>The reach is already broad. The Act binds providers and deployers whose AI output is used in the EU, wherever the company itself is based, the same way GDPR reached any business touching EU data, and it explicitly captures the B2B software that lets other organizations deploy AI in high-risk categories like hiring, credit, and biometrics. For most multinationals, "do we have exposure" is already yes. Penalties run to the higher of &euro;35 million or 7% of global annual turnover, above even GDPR. The headline enforcement date for high-risk systems was August 2026, though EU lawmakers reached political agreement in May 2026 to phase that back, a change still moving through formal adoption as of this writing.</p>
+
+  <p>Do not read the extension as breathing room to defer. Read it as the only runway you will get to build the capability before it closes. This is the part I would stake on professional experience in regulated industry: AI regulatory enforcement is going to arrive fast, on compressed notice, the way fast-moving regimes always do. Sometimes you get eighteen months. Sometimes you get almost none. You cannot stand up shadow-AI inventory, classification, ownership, and governed standards in ninety days from a standing start. You can absorb a fast regulatory landing only if you were already in a defensible posture before the notice came. The organizations that treated governance as a deadline exercise instead of a standing capability are the ones that will not survive the speed of it. The function that quietly inventories, promotes, and governs as a habit is the difference between absorbing that landing and being caught flat by it.</p>
+
+  <h2><span class="num">The function</span>The gap behind the gaps</h2>
+
+  <p>Notice what all of this requires. Someone has to be positioned to see the gap in the first place, sponsor it with the department that owns it, draw the skill-shaped versus system-shaped line honestly, and run the promotion so the win becomes durable. That is a function, and it lives on the seams: across procurement, legal, compliance, engineering, IT, the help desk, the research and commercial teams. Gaps form precisely there, because each team assumes the next one owns them.</p>
+
+  <p>It is platform-agnostic by necessity. Most enterprises run more than one model, plus a layer of unsanctioned tools underneath. The fix is the same pattern everywhere; only the surface changes with the stack. <em>Give legal a redline reviewer</em> is the pattern. Whether it lands as one vendor's assistant or another's depends entirely on what the building already runs. That is why the judgment ports across organizations even when the artifacts don't.</p>
+
+  <p>Most organizations don't have anyone in that seat. The work falls to whoever happens to notice, which means it mostly doesn't happen, which means the tolerated-pain portfolio keeps compounding while the cost of clearing it keeps dropping.</p>
+
+  <div class="takeaway">
+    <div class="label">The conversation worth having</div>
+    <p>The constraint isn't budget. The license is already on the books and the capability is unused. The constraint is <strong>attention</strong>, plus someone whose job is to reprice the backlog, govern the promotion of what works, and have the AI inventory owned and defensible <strong>before</strong> the regulation lands, not after.</p>
+  </div>
+
+  <hr class="close-rule">
+
+  <p class="endnote"><strong>What's in your tolerated-pain portfolio?</strong> The first problem that came to mind when you read that phrase is almost certainly the one to start with. It has been sitting in the portfolio precisely because it was never worth the old price. Check whether the price still holds. Most of the time, it doesn't.</p>
+
+  <div class="sources">
+    <div class="sources-label">Sources &amp; further reading</div>
+    <ul>
+      <li><a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng" target="_blank" rel="noopener">Regulation (EU) 2024/1689: the Artificial Intelligence Act, full official text</a> (EUR-Lex, European Union)</li>
+      <li><a href="https://artificialintelligenceact.eu/implementation-timeline/" target="_blank" rel="noopener">AI Act implementation timeline</a>: phased enforcement dates by provision</li>
+      <li><a href="https://eur-lex.europa.eu/EN/legal-content/summary/rules-for-trustworthy-artificial-intelligence-in-the-eu.html" target="_blank" rel="noopener">Plain-language summary of the Act</a> (EUR-Lex)</li>
+    </ul>
+    <p class="sources-note">Regulatory dates and the May 2026 phase-back are accurate as of writing and remain subject to formal adoption. The Act binds organizations whose AI output is used in the EU regardless of where they are based; it does not apply to purely domestic operations with no EU exposure. Penalty ceiling: the higher of &euro;35 million or 7% of global annual turnover. This piece is a point of view, not legal advice. Confirm scope and obligations for your own organization with qualified counsel.</p>
+  </div>
+
+</article>
+</div>
+
+<script>
+  var bar=document.getElementById('progress');
+  function upd(){
+    var h=document.documentElement;
+    var st=h.scrollTop||document.body.scrollTop;
+    var sh=(h.scrollHeight-h.clientHeight);
+    bar.style.width=(sh>0?(st/sh*100):0)+'%';
+  }
+  document.addEventListener('scroll',upd,{passive:true});
+  upd();
+</script>
+</body>
+</html>
